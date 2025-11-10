@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
-
+using System.Collections;
+using TMPro;
 
 public class EnemyManager : MonoBehaviour
 {    
@@ -9,9 +10,16 @@ public class EnemyManager : MonoBehaviour
     // tell enemy obj what turret is
     [SerializeField] GameObject turretBase;
 
-    // create array
+    // create list
     public static List <GameObject> enemies;
     public GameObject[] enemyShow;
+
+    public int enemyAmount;
+
+    [Header("for money counter")]
+    public float moneyAmount = 0;
+    public TextMeshProUGUI moneyCounterTXT;
+
     public List<GameObject> GetEnemyTargets()
     {
         return enemies;
@@ -19,32 +27,32 @@ public class EnemyManager : MonoBehaviour
 
     private void Start()
     {
-        instance = this;
-        enemies = new List<GameObject>();
-        instantiateEnemy();
+       instance = this;
+       enemies = new List<GameObject>();
     }
+
     public void Update()
     {
         enemyShow = enemies.ToArray();
+        if (enemies.Count <= 0) StartCoroutine(instantiateEnemy());
     }
 
     public GameObject enemyPrefab;
 
-    public float timer = 0.5f;
-    
-    public void instantiateEnemy()
-    {
-        for (int i = 0; i < 10;)
+    public IEnumerator instantiateEnemy()
+    { 
+        for (int i = 0; i < enemyAmount; i++)
         {
-            timer -= Time.deltaTime;
-            if (timer < 0)
-            {
-                GameObject enemy = Instantiate(enemyPrefab, new Vector3(Random.Range(50, -50), 1, Random.Range(50, -50)), Quaternion.identity);
-                enemies.Add(enemy);
-                i++;
+            GameObject enemy = Instantiate(enemyPrefab, new Vector3(Random.Range(50, -50), 1, Random.Range(50, -50)), Quaternion.identity);
+            enemies.Add(enemy);
+            yield return new WaitForSeconds(1f);
+        }   
+    }
 
-                timer = .5f;
-            }
-        }
+    public void AddMoney()
+    { 
+        Debug.Log("money add");
+        moneyAmount++;
+        moneyCounterTXT.text = "$: " + moneyAmount.ToString();
     }
 }

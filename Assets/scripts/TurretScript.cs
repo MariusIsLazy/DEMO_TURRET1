@@ -10,13 +10,7 @@ public class TurretScript : MonoBehaviour
     public GameObject bulletPrefab;
     public GameObject spawnPoint;
 
-    float timer = 0.5f;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    private float timer = 0.5f;
 
     // Update is called once per frame
     void Update()
@@ -28,9 +22,8 @@ public class TurretScript : MonoBehaviour
         timer -= Time.deltaTime;
         if (timer < 0)
         {
-            Sort(enemyList);
-            
-            // shoot
+            Sort();
+             
             Shoot();
 
             // reset timer
@@ -40,20 +33,18 @@ public class TurretScript : MonoBehaviour
 
     void Shoot()
     {
-        Instantiate(bulletPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
-        
+        if (enemyList.Count > 0) Instantiate(bulletPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
     }
 
-    void Sort(List<GameObject> list)
+    void Sort()
     {
         for (int i = 0; i < enemyList.Count; i++)
         {
             //Debug.Log("name of the first enemy is " + enemyList[i].transform.name);
-
             for (int j = 0; j < enemyList.Count - i - 1; j++)
             {
                 // Compare at index i to j
-                float firstObjectDistance = Vector3.Distance(enemyList[i].transform.position, transform.position);
+                float firstObjectDistance = Vector3.Distance(enemyList[j].transform.position, transform.position);
                 float secondObjectDistance = Vector3.Distance(enemyList[j + 1].transform.position, transform.position);
 
                 //Debug.Log("distance between first ad second is " + firstObjectDistance + ", " + secondObjectDistance);
