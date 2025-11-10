@@ -44,6 +44,7 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < enemyAmount; i++)
         {
             GameObject enemy = Instantiate(enemyPrefab, new Vector3(Random.Range(50, -50), 1, Random.Range(50, -50)), Quaternion.identity);
+            enemy.GetComponent<enemyScript>().EM = this;
             enemies.Add(enemy);
             yield return new WaitForSeconds(1f);
         }   

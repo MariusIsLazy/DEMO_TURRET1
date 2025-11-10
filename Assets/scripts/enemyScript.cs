@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class enemyScript : MonoBehaviour
 {
-    EnemyManager EM;
+    public EnemyManager EM;
     
     float Health = 5;
 
