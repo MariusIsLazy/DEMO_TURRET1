@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class enemyScript : MonoBehaviour
 {
-    public EnemyManager EM;
-    
     float Health = 5;
 
     private void Update()
@@ -24,7 +22,7 @@ public class enemyScript : MonoBehaviour
             //Debug.Log(Health);
             Destroy(gameObject);
             EnemyManager.enemies.Remove(gameObject);
-            EM.AddMoney();
+            EnemyManager.instance.AddMoney();
         }
     }
 }
